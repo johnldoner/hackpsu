@@ -1,15 +1,34 @@
 angular.module('starter.controllers', [])
-.controller('PopupCtrl', function($scope, $timeout, $q, $ionicPopup) {
-    $scope.showAlert = function() {
-        $ionicPopup.alert({
-            title: 'Success',
-            content: 'Hello World!!!'
-        }).then(function(res) {
-            console.log('Test Alert Box');
-        });
-    };
 
-})
+.controller('PopupCtrl', function($scope, $timeout, $q, $ionicPopup) {
+// Triggered on a button click, or some other target
+$scope.showPopup = function() {
+        $scope.data = {}
+
+        // An elaborate, custom popup
+        var myPopup = $ionicPopup.show({
+            template: '<input type="password" ng-model="data.wifi">',
+            title: 'Just add /.rss to your favorite subreddits URL',
+            subTitle: 'Please use normal things',
+            scope: $scope,
+            buttons: [{
+                text: 'Cancel'
+            }, {
+                text: '<b>Save</b>',
+                type: 'button-positive',
+                onTap: function(e) {
+                    if (!$scope.data.wifi) {
+                        //don't allow the user to close unless he enters wifi password
+                        e.preventDefault();
+                    } else {
+                        return $scope.data.wifi;
+                    }
+                }
+            }]
+        };
+      })
+
+
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
   // Form data for the login modal
