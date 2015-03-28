@@ -21,6 +21,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
 })
 
 
+
 .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
 
@@ -30,7 +31,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         templateUrl: "templates/menu.html",
         controller: 'AppCtrl'
     })
-        
+
     .state('app.collab', {
             url: "/collab",
             views: {
@@ -39,11 +40,19 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 }
             }
         })
-    .state('app.settings', {
+        .state('app.settings', {
             url: "/settings",
             views: {
                 'menuContent': {
                     templateUrl: "templates/settings.html"
+                }
+            }
+        })
+        .state('app.redditchange', {
+            url: "/redditchange",
+            views: {
+                'menuContent': {
+                    templateUrl: "templates/redditchange.html"
                 }
             }
         })
@@ -65,7 +74,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
             }
         })
 
-    
+
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/personal');
 });
