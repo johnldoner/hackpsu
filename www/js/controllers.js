@@ -1,30 +1,33 @@
 angular.module('starter.controllers', [])
 
- .controller("FeedController", function($http, $scope) {
- 
-    $scope.init = function() {
-        $http.get("http://ajax.googleapis.com/ajax/services/feed/load", 
-          { params: { "v": "1.0", "q": "http://blog.nraboy.com/feed/" } })
-            .success(function(data) {
-                $scope.rssTitle = data.responseData.feed.title;
-                $scope.rssUrl = data.responseData.feed.feedUrl;
-                $scope.rssSiteUrl = data.responseData.feed.link;
-                $scope.entries = data.responseData.feed.entries;
-                 window.localStorage["entries"] = JSON.stringify(data.responseData.feed.entries);
- 
-            })
-            .error(function(data) {
-                console.log("ERROR: " + data);
-                 if(window.localStorage["entries"] !== undefined) {
-                    $scope.entries = JSON.parse(window.localStorage["entries"]);
-                }
-            });
-    }
-    $scope.browse = function(v) {
-    window.open(v, "_system", "location=yes");
-}
- 
-})
+  .controller('FeedController', function($scope, $http, $timeout) {
+           $scope.refreshInterval = 60;
+    $scope.feeds = [{
+      url: 'http://www.reddit.com/r/cats/.rss'
+    }];
+
+    $scope.fetchFeed = function(feed) {
+      feed.items = [];
+
+      var apiUrl = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D'";
+      apiUrl += encodeURIComponent(feed.url);
+      apiUrl += "'%20and%20itemPath%3D'feed.entry'&format=json&diagnostics=true&callback=JSON_CALLBACK";
+
+      $http.jsonp(apiUrl).
+        success(function(data, status, headers, config) {
+          if (data.query.results) {
+            feed.items = data.query.results.entry;
+          }
+        }).
+        error(function(data, status, headers, config) {
+          console.error('Error fetching feed:', data);
+        });
+
+      $timeout(function() { $scope.fetchFeed(feed); }, $scope.refreshInterval * 1000);
+    };
+
+  })
+
 
 .controller('PopupCtrl',function($scope, $ionicPopup, $timeout) {
 
@@ -34,7 +37,7 @@ angular.module('starter.controllers', [])
 
    // An elaborate, custom popup
    var myPopup = $ionicPopup.show({
-     template: '<input type="text" ng-model="data.reddit">',
+     template: '<input type="text" ng-model= "data.reddit">',
      subTitle: 'Just add /.rss to the URL of your favorite feed.',
      scope: $scope,
      buttons: [
@@ -88,54 +91,6 @@ angular.module('starter.controllers', [])
     $timeout(function() {
       $scope.closeLogin();
     }, 1000);
-  };
-})
-
-
-/*.controller('PopupCtrl', function($scope, $timeout, $q, $ionicPopup) {
-    $scope.showPopup = function() {
-        $ionicPopup.alert({
-            title: 'Success',
-            content: 'Hello World!!!'
-        }).then(function(res) {
-            console.log('Test Alert Box');
-        });
-    };
-
-})
-*/
-
-.controller('StudyBreakCtrl', function($scope) {
-
-  $scope.groups = [
-  "Upcoming Facebook Events",
-  "Reddit Stress Reduction"
-  ];
-  
-
-/*  for (var i=0; i<5; i++) {
-    $scope.groups[i] = {
-      name: i,
-      items: []
-    };
-    for (var j=0; j<3; j++) {
-      $scope.groups[i].items.push(i + '-' + j);
-    }
-  }*/
-  
-  /*
-   * if given group is the selected group, deselect it
-   * else, select the given group
-   */
-  $scope.toggleGroup = function(group) {
-    if ($scope.isGroupShown(group)) {
-      $scope.shownGroup = null;
-    } else {
-      $scope.shownGroup = group;
-    }
-  };
-  $scope.isGroupShown = function(group) {
-    return $scope.shownGroup === group;
   };
 })
 

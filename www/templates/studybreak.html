@@ -1,17 +1,20 @@
 <ion-view view-title="Study Break">
     <ion-tabs class="tabs-positive tabs-icon-top">
         <ion-tab title="Reddit" icon="ion-happy">
-            <ion-content ng-controller="FeedController" ng-init="init()" scroll="true">
-                <div class="list">
-                    <a ng-repeat="entry in entries" class="item" ng-click="browse(entry.link)">
-                        <b>{{entry.title}}</b>
-                        <br>
-                        <span ng-bind-html="entry.contentSnippet"></span>
-                    </a>
+            <ion-content ng-controller="FeedController">
+                <p>Refresh (seconds):
+                    <input ng-model="refreshInterval">
+                </p>
+                <div ng-repeat="feed in feeds">
+                    <ul>
+                        <li ng-repeat="item in feed.items"><a href="{{ item.link.href }}">{{ item.title }}</a></li>
+                    </ul>
+                    <button ng-click="fetchFeed(feed)">Update</button>
+                    
                 </div>
             </ion-content>
         </ion-tab>
-               <ion-tab title="Facebook Events" icon="ion-social-facebook">
+        <ion-tab title="Facebook Events" icon="ion-social-facebook">
             <!-- Tab 2 content -->
         </ion-tab>
         <ion-tab title="Giphy Gifs" icon="ion-calendar">
