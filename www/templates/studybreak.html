@@ -1,7 +1,7 @@
 <ion-view view-title="Study Break">
     <ion-tabs class="tabs-positive tabs-icon-top">
         <ion-tab title="Reddit" icon="ion-happy">
-            <ion-content ng-controller="FeedController" ng-init="init()">
+            <ion-content ng-controller="FeedController" ng-init="init()" scroll="true">
                 <div class="list">
                     <a ng-repeat="entry in entries" class="item" ng-click="browse(entry.link)">
                         <b>{{entry.title}}</b>
@@ -10,6 +10,9 @@
                     </a>
                 </div>
             </ion-content>
+        </ion-tab>
+               <ion-tab title="Facebook Events" icon="ion-social-facebook">
+            <!-- Tab 2 content -->
         </ion-tab>
         <ion-tab title="Giphy Gifs" icon="ion-calendar">
             <!-- Tab 2 content -->

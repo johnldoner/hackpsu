@@ -57,6 +57,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 }
             }
         })
+
+        .state('app.about', {
+            url: "/about",
+            views: {
+                'menuContent': {
+                    templateUrl: "templates/about.html"
+                }
+            }
+        })
         .state('app.studybreak', {
             url: "/studybreak",
             views: {
