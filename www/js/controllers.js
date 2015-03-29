@@ -1,30 +1,60 @@
 angular.module('starter.controllers', [])
 
-.controller('PopupCtrl', function($scope, $timeout, $q, $ionicPopup) {
-// Triggered on a button click, or some other target
-  $scope.showPopup = function() {
-    $scope.data = {};
-    var myPopup = $ionicPopup.show({
-        template: '<input type="password" ng-model="data.wifi">',
-        title: 'Just add /.rss to your favorite subreddits URL',
-        subTitle: 'Please use normal things',
-        scope: $scope,
-        buttons: [{
-            text: 'Cancel'
-        }, {
-            text: '<b>Save</b>',
-            type: 'button-positive',
-            onTap: function(e) {
-                if (!$scope.data.wifi) {
-                    //don't allow the user to close unless he enters wifi password
-                    e.preventDefault();
-                } else {
-                    return $scope.data.wifi;
+ .controller("FeedController", function($http, $scope) {
+ 
+    $scope.init = function() {
+        $http.get("http://ajax.googleapis.com/ajax/services/feed/load", 
+          { params: { "v": "1.0", "q": "http://blog.nraboy.com/feed/" } })
+            .success(function(data) {
+                $scope.rssTitle = data.responseData.feed.title;
+                $scope.rssUrl = data.responseData.feed.feedUrl;
+                $scope.rssSiteUrl = data.responseData.feed.link;
+                $scope.entries = data.responseData.feed.entries;
+                 window.localStorage["entries"] = JSON.stringify(data.responseData.feed.entries);
+ 
+            })
+            .error(function(data) {
+                console.log("ERROR: " + data);
+                 if(window.localStorage["entries"] !== undefined) {
+                    $scope.entries = JSON.parse(window.localStorage["entries"]);
                 }
-            }
-        }]
-      });
-   };     
+            });
+    }
+    $scope.browse = function(v) {
+    window.open(v, "_system", "location=yes");
+}
+ 
+})
+
+.controller('PopupCtrl',function($scope, $ionicPopup, $timeout) {
+
+ // Triggered on a button click, or some other target
+ $scope.showPopup = function() {
+   $scope.data = {}
+
+   // An elaborate, custom popup
+   var myPopup = $ionicPopup.show({
+     template: '<input type="text" ng-model="data.reddit">',
+     subTitle: 'Just add /.rss to the URL of your favorite feed.',
+     scope: $scope,
+     buttons: [
+       { text: 'Cancel' ,
+       type: 'button-default'},
+       {
+         text: '<b>Save</b>',
+         type: 'button-royal',
+         onTap: function(e) {
+           if (!$scope.data.reddit) {
+             //don't allow the user to close unless he enters wifi password
+             e.preventDefault();
+           } else {
+             return $scope.data.reddit;
+           }
+         }
+       },
+     ]
+   });
+};
 })
 
 
@@ -62,8 +92,8 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('PopupCtrl', function($scope, $timeout, $q, $ionicPopup) {
-    $scope.showAlert = function() {
+/*.controller('PopupCtrl', function($scope, $timeout, $q, $ionicPopup) {
+    $scope.showPopup = function() {
         $ionicPopup.alert({
             title: 'Success',
             content: 'Hello World!!!'
@@ -73,7 +103,7 @@ angular.module('starter.controllers', [])
     };
 
 })
-
+*/
 
 .controller('StudyBreakCtrl', function($scope) {
 

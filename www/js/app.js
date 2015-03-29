@@ -48,14 +48,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 }
             }
         })
-        .state('app.redditchange', {
-            url: "/redditchange",
-            views: {
-                'menuContent': {
-                    templateUrl: "templates/redditchange.html"
-                }
-            }
-        })
+
         .state('app.personal', {
             url: "/personal",
             views: {
