@@ -1,24 +1,28 @@
-<ion-view view-title="Study Break">
+<ion-view>
     <ion-tabs class="tabs-positive tabs-icon-top">
-        <ion-tab title="Reddit" icon="ion-happy">
-            <ion-content ng-controller="FeedController">
-                <p>Refresh (seconds):
-                    <input ng-model="refreshInterval">
-                </p>
-                <div ng-repeat="feed in feeds">
-                    <ul>
-                        <li ng-repeat="item in feed.items"><a href="{{ item.link.href }}">{{ item.title }}</a></li>
-                    </ul>
-                    <button ng-click="fetchFeed(feed)">Update</button>
-                    
-                </div>
-            </ion-content>
-        </ion-tab>
-        <ion-tab title="Facebook Events" icon="ion-social-facebook">
-            <!-- Tab 2 content -->
+        <ion-tab title="Reddit" icon="ion-happy" scroll="true">
+            <br>
+            <br>
+            <br>
+            <h1> Hi </h1>
+            <div data-ng-include="'rss.html'"></div>
+            <script type="text/ng-template" id="rss.html">
+                <link href="css/jquery.zrssfeed.css" rel="stylesheet" type="text/css" />
+                <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+                <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+                <script src="jquery.zrssfeed.min.js" type="text/javascript"></script>
+                <script type="text/javascript">
+                $(document).ready(function() {
+                    $('#test').rssfeed('http://feeds.reuters.com/reuters/oddlyEnoughNews');
+                });
+                </script>
+
+                <body>
+                    <div id="test"></div>
+                </body>
+            </script>
         </ion-tab>
         <ion-tab title="Giphy Gifs" icon="ion-calendar">
-            <!-- Tab 2 content -->
         </ion-tab>
     </ion-tabs>
 </ion-view>

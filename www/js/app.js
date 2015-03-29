@@ -42,6 +42,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 }
             }
         })
+
+        .state('app.rss', {
+            url: "/rss",
+            views: {
+                'rss': {
+                    templateUrl: "rss.html"
+                }
+            }
+        })
         .state('app.settings', {
             url: "/settings",
             views: {

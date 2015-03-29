@@ -1,33 +1,6 @@
+'use strict'
+
 angular.module('starter.controllers', [])
-
-  .controller('FeedController', function($scope, $http, $timeout) {
-           $scope.refreshInterval = 60;
-    $scope.feeds = [{
-      url: 'http://www.reddit.com/r/cats/.rss'
-    }];
-
-    $scope.fetchFeed = function(feed) {
-      feed.items = [];
-
-      var apiUrl = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D'";
-      apiUrl += encodeURIComponent(feed.url);
-      apiUrl += "'%20and%20itemPath%3D'feed.entry'&format=json&diagnostics=true&callback=JSON_CALLBACK";
-
-      $http.jsonp(apiUrl).
-        success(function(data, status, headers, config) {
-          if (data.query.results) {
-            feed.items = data.query.results.entry;
-          }
-        }).
-        error(function(data, status, headers, config) {
-          console.error('Error fetching feed:', data);
-        });
-
-      $timeout(function() { $scope.fetchFeed(feed); }, $scope.refreshInterval * 1000);
-    };
-
-  })
-
 
 .controller('PopupCtrl',function($scope, $ionicPopup, $timeout) {
 

@@ -1,0 +1,29 @@
+<html>
+<head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js "></script>
+    <script>
+
+        (function() {
+
+          var url = "https://upenn.instructure.com/api/v1/courses/1253713/assignments?access_token=25~ZUZD0QHZ18rIyWU5yTgKv6WkI3rFYgvuKxEEpYRFhN1ndvGaZHla2bfliRlfFec5?callback=? ";
+          $.getJSON( url, {
+            dataType: "jsonp",
+         
+        }).done(function(data) {
+            console.log("sucesss"); 
+/*      $.each( data.items, function( i, item ) {
+    console.log(item.name);*/
+})
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        })
+        })();
+
+</script>
+</head>
+<body>
+    <div id = 'twitterFeed'></div>
+</body>
+</html>
